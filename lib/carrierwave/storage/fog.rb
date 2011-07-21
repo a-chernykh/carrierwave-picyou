@@ -96,7 +96,7 @@ module CarrierWave
       end
 
       def connection
-        @connection ||= begin
+        @@connection ||= begin
           ::Fog::Storage.new(uploader.fog_credentials)
         end
       end
