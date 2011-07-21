@@ -135,10 +135,7 @@ module CarrierWave
         #
         def authenticated_url
           if ['AWS', 'Google'].include?(@uploader.fog_credentials[:provider])
-            # avoid a get by using local references
-            local_directory = connection.directories.new(:key => @uploader.fog_directory)
-            local_file = local_directory.files.new(:key => path)
-            local_file.url(::Fog::Time.now + @uploader.fog_authenticated_url_expiration)
+            connection.get_object_http_url(@uploader.fog_directory, path, Time.now + @uploader.fog_authenticated_url_expiration)
           else
             nil
           end
